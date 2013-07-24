@@ -2,6 +2,7 @@ package com.witch.bluecalculate;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,25 +28,12 @@ public class BluetoothHelper  {
 	private ArrayList<String> mArrayAdapter;
 	private AcceptThread acceptThread; // Server
 	private ConnectThread connectThread; // Client connecting
-	private ConnectedThread connectedThread; // Communication thread (upon connecting the other two threads arent used)
 	final int REQUEST_ENABLE_BT = 1000;
-	
-	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-	    public void onReceive(Context context, Intent intent) {
-	    	Toast.makeText(context, "Started", Toast.LENGTH_LONG).show();
-	        String action = intent.getAction();
-	        // When discovery finds a device
-	        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-	            // Get the BluetoothDevice object from the Intent
-	            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-	            // Add the name and address to an array adapter to show in a ListView
-	            mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-	        }
-	    }
-	};
 	BluetoothHelper(MainActivity ctx) {
 		this.ctx = ctx;
 		mArrayAdapter = new ArrayList<String>();
+		
+		
 	}
 	
 	private BluetoothAdapter init() {
@@ -73,24 +61,25 @@ public class BluetoothHelper  {
 			Toast.makeText(ctx, "Press again start server", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if (acceptThread==null){
-			acceptThread = new AcceptThread(this,mBluetoothAdapter);
-			acceptThread.run();
-		}
+		acceptThread = new AcceptThread(this,mBluetoothAdapter);
+		acceptThread.run();
 		return true;
 	}
 	
 	public void initClient(){
+		//startDiscovery();
+		
 		BluetoothAdapter btadapt = init();
 		BluetoothDevice btdevice = connectToOthers(btadapt);
 		if (btdevice!=null) {
 			Log.i(tag,"Found and connecting to "+btdevice.getName());
-	    	Toast.makeText(ctx, "Going to connect to phone:", Toast.LENGTH_SHORT).show();
+	    	Toast.makeText(ctx, "Going to connect to phone:"+ btdevice.getName(), Toast.LENGTH_SHORT).show();
 	        ConnectThread connectThread = new ConnectThread(this,btdevice);
-	        connectThread.run();
+	        connectThread.connect();
 		} else {
 			Toast.makeText(ctx, "Failed WHAT", Toast.LENGTH_SHORT).show();
 		}
+		
 	}
 	
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -103,20 +92,57 @@ public class BluetoothHelper  {
 		        // Add the name and address to an array adapter to show in a ListView
 		        mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 		        Log.i(tag,"Selecting Device :" +device.getName());
-		        return device;
+		        if (device.getName().contains("Robbie"))
+		        		return device;
 		    }
+		    
+		    //here we prompt the user to pick a result;
+		    
+		} else {
+			Log.i(tag,"You need to pair a device first by scanning for devices!");
+			Toast.makeText(ctx, "You need to pair a device first by scanning for devices!", Toast.LENGTH_SHORT).show();
 		}
+		//here we can prompt the user to pick a device
+		
 		return null;
 	}
 	
 	 
 	public void startDiscovery(){
 		
-		// Register the BroadcastReceiver
-		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		ctx.registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
+		List<String> lstring = getBluetoothDevicesNearMe(ctx);
+		for (String s: lstring)
+		{
+			Log.i(tag,"Here we have :"+s);
+		}
 
 	}
-	// Create a BroadcastReceiver for ACTION_FOUND
+	protected List<String> getBluetoothDevicesNearMe(Context context) {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		mBluetoothAdapter.startDiscovery();
+
+		// Create a BroadcastReceiver for ACTION_FOUND
+		final List<String> discoverableDevicesList = new ArrayList<String>();
+
+		final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+		    public void onReceive(Context context, Intent intent) {
+		        String action = intent.getAction();
+		        // When discovery finds a device
+		        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+		            // Get the BluetoothDevice object from the Intent
+		            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+		            short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI,Short.MIN_VALUE);
+		            // Add the name and address to an array adapter to show in a ListView
+		            System.out.println(device.getName());
+		            discoverableDevicesList.add(device.getName() + "\n" + device.getAddress() + "\n" + rssi);   
+		        }
+		    }
+		};
+		// Register the BroadcastReceiver
+		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+		context.registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
+
+		return discoverableDevicesList;
+		}
 	
 }

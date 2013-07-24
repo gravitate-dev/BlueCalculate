@@ -25,10 +25,12 @@ public class MainActivity extends Activity {
 	private TextView textViewOutput;
 	private Button buttonConnect, buttonServer;
 	private BluetoothHelper bluetoothHelper;
+	public static Activity activity;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		activity = this;
 		
 		textViewOutput = (TextView)findViewById(R.id.debugText);
 		buttonConnect = (Button)findViewById(R.id.buttonConnect);
@@ -75,9 +77,11 @@ public class MainActivity extends Activity {
 	
 	public void lol(String s)
 	{
-		String old = textViewOutput.getText().toString();
+		/*String old = textViewOutput.getText().toString();
 		old +="\n"+s;
 		textViewOutput.setText(old);
+		*/
+		Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

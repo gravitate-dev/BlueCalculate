@@ -30,7 +30,7 @@ class AcceptThread extends Thread {
         try {
             // MY_UUID is the app's UUID string, also used by the client code
             tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
-        } catch (IOException e) { }
+        } catch (IOException e) { Log.e(tag,"Another exception lols");}
         mmServerSocket = tmp;
         
     }
@@ -45,6 +45,7 @@ class AcceptThread extends Thread {
             try {
                 socket = mmServerSocket.accept();
             } catch (IOException e) {
+            	Log.e(tag,"Exception here!");
                 break;
             }
             // If a connection was accepted
@@ -52,8 +53,8 @@ class AcceptThread extends Thread {
             	Log.i(tag,"Connection Established");
                 // Do work to manage the connection (in a separate thread)
         			try {
-        		ConnectedThread connectedThread = new ConnectedThread(this.bluetoothHelper,socket);
-            	connectedThread.run();
+        		ConnectedThread connectedThread = new ConnectedThread(this.bluetoothHelper,socket,false);
+        		connectedThread.start();
         			} catch (Exception e){
         				e.printStackTrace();
         				
