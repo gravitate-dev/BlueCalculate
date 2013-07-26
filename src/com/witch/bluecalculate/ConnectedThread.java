@@ -66,7 +66,11 @@ public class ConnectedThread extends Thread{
 	public void run() {
     	byte[] buffer = new byte[1024];  // buffer store for the stream
         int bytes; // bytes returned from read()
-        String text = bluetoothMessenger.makeMessage(50, 22, "+");
+        
+        if (bIsClient) {
+        //only send if i am a client
+        String text = bluetoothHelper.getSendMessage();
+        Log.i(tag,"Going to send:"+text);
         byte[] bytes_test = null;
 		try {
 			bytes_test = text.getBytes("UTF-8");
@@ -76,7 +80,8 @@ public class ConnectedThread extends Thread{
 		}
         write(bytes_test);
         Log.i(tag,"Sent bytes");
-        if (bIsClient){
+        
+
         	try {
 				mmSocket.close();
 			} catch (IOException e1) {

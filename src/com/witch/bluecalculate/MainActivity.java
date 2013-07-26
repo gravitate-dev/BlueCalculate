@@ -20,7 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-
+	
+	private enum INTENTCODE {
+		SET_MATH_PROBLEM
+	}
 	private String tag = "MainActivity";
 	private TextView textViewOutput;
 	private Button buttonConnect, buttonServer;
@@ -58,9 +61,12 @@ public class MainActivity extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() != MotionEvent.ACTION_UP) return false;
-				Log.i(tag,"Client button clicked");
-				Toast.makeText(MainActivity.this, "Trying to connect", Toast.LENGTH_SHORT).show();
-				bluetoothHelper.initClient();
+				Log.i(tag,"Client button clicked starting math activity");
+				
+				//the client will be started after the intent is returned
+				Intent intent = new Intent(getBaseContext(),MathQuestionActivity.class);
+				startActivityForResult(intent,INTENTCODE.SET_MATH_PROBLEM.ordinal());
+				
 				return false;
 			}
 		}
@@ -73,6 +79,19 @@ public class MainActivity extends Activity {
 		
 	}
 	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    // Check which request we're responding to
+	    if (requestCode == INTENTCODE.SET_MATH_PROBLEM.ordinal()) {
+	        // Make sure the request was successful
+	        if (resultCode == RESULT_OK) {
+	        	String sendMe = data.getStringExtra("sendString");
+	        	bluetoothHelper.setSendMessage(sendMe);
+	            bluetoothHelper.initClient();
+	        }
+	    }
+	}
 	
 	
 	public void lol(String s)

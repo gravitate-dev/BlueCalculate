@@ -20,7 +20,7 @@
         android:layout_marginBottom="85dp"
         android:layout_marginRight="22dp"
         android:layout_toLeftOf="@+id/debugText"
-        android:text="Connect to Server" />
+        android:text="Send a math problem" />
 
     <Button
         android:id="@+id/buttonServer"

@@ -5,6 +5,10 @@ import android.util.Log;
 public class BluetoothMessenger {
 	
 	private String finalString, secondNum, firstNum;
+	public static enum Code {
+		ADDITION,
+		SUBTRACTION
+		}
 	
 	BluetoothMessenger(){
 		Log.i("BluetoothMessenger", "created");

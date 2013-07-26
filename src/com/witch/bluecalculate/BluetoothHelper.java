@@ -28,6 +28,7 @@ public class BluetoothHelper  {
 	private ArrayList<String> mArrayAdapter;
 	private AcceptThread acceptThread; // Server
 	private ConnectThread connectThread; // Client connecting
+	private String sendMe = "";
 	final int REQUEST_ENABLE_BT = 1000;
 	BluetoothHelper(MainActivity ctx) {
 		this.ctx = ctx;
@@ -92,7 +93,7 @@ public class BluetoothHelper  {
 		        // Add the name and address to an array adapter to show in a ListView
 		        mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 		        Log.i(tag,"Selecting Device :" +device.getName());
-		        if (device.getName().contains("Robbie"))
+		        if (device.getName().contains("tab"))
 		        		return device;
 		    }
 		    
@@ -144,5 +145,12 @@ public class BluetoothHelper  {
 
 		return discoverableDevicesList;
 		}
+
+	public void setSendMessage(String sendMe) {
+		this.sendMe = sendMe;
+	}
+	public String getSendMessage(){
+		return this.sendMe;
+	}
 	
 }
