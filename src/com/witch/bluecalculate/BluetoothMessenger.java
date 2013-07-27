@@ -10,7 +10,7 @@ public class BluetoothMessenger {
 		SUBTRACTION
 		}
 	
-	BluetoothMessenger(){
+	public BluetoothMessenger(){
 		Log.i("BluetoothMessenger", "created");
 
 	}

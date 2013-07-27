@@ -1,6 +1,7 @@
 package com.witch.bluecalculate;
 
 import com.witch.bluecalculate.R;
+import com.witch.bluetooth.BluetoothHelper;
 
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -38,9 +39,8 @@ public class MainActivity extends Activity {
 		textViewOutput = (TextView)findViewById(R.id.debugText);
 		buttonConnect = (Button)findViewById(R.id.buttonConnect);
 		buttonServer = (Button)findViewById(R.id.buttonServer);
-		textViewOutput.setText("what the");
 		
-		bluetoothHelper = new BluetoothHelper(this);
+		bluetoothHelper = new BluetoothHelper(MainActivity.this);
 		//bluetoothHelper.initServer();
 		//SERVER
 		buttonServer.setOnTouchListener(new OnTouchListener(){
