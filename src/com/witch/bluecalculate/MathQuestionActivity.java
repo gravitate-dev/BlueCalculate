@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class MathQuestionActivity extends Activity {
 	
 	private Button addButton, subButton;
-	private String tag = "MainActivity";
+	private String tag = "witch.MainActivity";
 	private EditText text1, text2;
 	private TextView resultBox;
 	private MotionEvent event = null;

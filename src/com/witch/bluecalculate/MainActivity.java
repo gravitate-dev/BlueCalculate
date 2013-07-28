@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	private enum INTENTCODE {
 		SET_MATH_PROBLEM
 	}
-	private String tag = "MainActivity";
+	private String tag = "witch.MainActivity";
 	private TextView textViewOutput;
 	private Button buttonConnect, buttonServer;
 	private BluetoothHelper bluetoothHelper;

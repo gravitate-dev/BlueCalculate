@@ -15,12 +15,11 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-public class AcceptTask extends AsyncTask<Void, Void, Void> {
-    private final BluetoothServerSocket mmServerSocket;
+public class AcceptTask extends AsyncTask<Object,Void , BluetoothSocket> {
+    private BluetoothServerSocket mmServerSocket;
     private UUID MY_UUID;
     private final String NAME = "Robbie";
-    private final String tag = "AcceptThread";
-    private MainActivity ctx;
+    private final String tag = "witch.AcceptThread";
     private BluetoothHelper bluetoothHelper;
     BluetoothSocket socket = null;
     private boolean shouldStayOpen = false; //Set true if want multiple connections
@@ -46,50 +45,33 @@ public class AcceptTask extends AsyncTask<Void, Void, Void> {
             mmServerSocket.close();
         } catch (IOException e) { }
     }
+	
+	protected void onPostExecute(BluetoothSocket socket){
+		Log.i(tag,"What does this do");
+		/*
+		 * i call this here IMPORTANT! Because otherwise it will 
+		 * A. crash because i create a thread inside an asyncTask
+		*/
+		bluetoothHelper.establishConnectionAsServer(socket); 
+	}
 
 	@Override
-	protected Void doInBackground(Void... arg0) {
-		// TODO Auto-generated method stub
-		
-
-        
-        // Keep listening until exception occurs or a socket is returned
-        Log.i(tag,"Server started: waiting for connection...");
-        while (true) {
-        	
+	protected BluetoothSocket doInBackground(Object... arg0) {
+		Log.i(tag,"Server started: waiting for connection...");
             try {
                 socket = mmServerSocket.accept();
+                
             } catch (IOException e) {
             	Log.e(tag,"Exception here!");
-                break;
+                return null;
             }
-            
-        }
-		return null;
-	}
-	
-	protected void onPostExecute(Void param) {
-		// If a connection was accepted
-        if (socket != null) {
-        	Log.i(tag,"Connection Established");
-            // Do work to manage the connection (in a separate thread)
-    			try {
-    			Looper.prepare();
-    		ConnectedThread connectedThread = new ConnectedThread(this.bluetoothHelper,socket,false);
-    		connectedThread.start();
-    			} catch (Exception e){
+                try {
+    				mmServerSocket.close();
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
     				e.printStackTrace();
-    				
     			}
-            try {
-				mmServerSocket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-            if (shouldStayOpen==false)
-            	return;
-        }
+                Log.i(tag,"Connection found now leaving task");
+		return socket;
 	}
 }

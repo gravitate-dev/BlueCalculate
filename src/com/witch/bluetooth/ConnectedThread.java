@@ -21,7 +21,7 @@ public class ConnectedThread extends Thread{
 	private final BluetoothSocket mmSocket;
     private final InputStream mmInStream;
     private final OutputStream mmOutStream;
-    private String tag = "ConnectedThread";
+    private String tag = "witch.ConnectedThread";
     public BluetoothHelper bluetoothHelper;
     private BluetoothMessenger bluetoothMessenger;
     public boolean bIsClient;

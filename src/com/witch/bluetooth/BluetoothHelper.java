@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.witch.bluecalculate.MainActivity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
@@ -20,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import android.sax.StartElementListener;
 import android.util.Log;
@@ -30,7 +32,7 @@ import android.widget.Toast;
 
 public class BluetoothHelper  {
 	
-	private static String tag = "BluetoothHelper";
+	private static String tag = "witch.BluetoothHelper";
 	private BluetoothAdapter mBluetoothAdapter;
 	private ArrayList<String> mArrayAdapter;
 	private String sendMe = "";
@@ -40,46 +42,43 @@ public class BluetoothHelper  {
 	public BluetoothHelper(Context context) {
 		this.context = context;
 		mArrayAdapter = new ArrayList<String>();
-		
-		
-	}
-	
-	private BluetoothAdapter init() {
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
 		    // Device does not support Bluetooth
 			Log.e(tag,"Initalization failure, Device doesn't support bluetooth");
-			return null;
 		}
 		
 		if (!mBluetoothAdapter.isEnabled()) {
-		    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-		    context.startActivity(enableBtIntent);
-		    Log.e(tag,"Initalization failure, Bluetooth needs user to turn on");
-		    return null;
+		    context.startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
 		}
-		return mBluetoothAdapter;
-		
+	}
+	
+	private BluetoothAdapter getAdapter() {
+		return mBluetoothAdapter;		
 	}
 	public boolean initServer(){
 		/*After initalized we will start the server */
-		BluetoothAdapter btadapt = init();
+		BluetoothAdapter btadapt = getAdapter();
 		Log.i(tag,"Starting accept thread");
 		if (btadapt == null) {
 			Log.i(tag, "Press again start server");
 			return false;
 		}
-		AcceptThread acceptThread = new AcceptThread(this,mBluetoothAdapter);
-		acceptThread.run();
+		
+		new AcceptTask(this, btadapt).execute(); //this starts listening for connection
+
 		return true;
 	}
 	
 	public void initClient(){
-		//startDiscovery();
-		BluetoothAdapter btadapt = init();
+		BluetoothAdapter btadapt = getAdapter();
 		final String[] items = showOthers(btadapt);
 		showAvailableDevices(btadapt, items);
-		
+	}
+	
+	public void startConnection(BluetoothDevice btdevice){
+        ConnectThread connectThread = new ConnectThread(this,btdevice);
+        connectThread.connect();
 	}
 	
 	public void showAvailableDevices(final BluetoothAdapter btadapt, final String[] items){
@@ -117,10 +116,7 @@ public class BluetoothHelper  {
 		alert.show();
 	}
 	
-	public void startConnection(BluetoothDevice btdevice){
-        ConnectThread connectThread = new ConnectThread(this,btdevice);
-        connectThread.connect();
-	}
+
 	
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private BluetoothDevice connectToDeviceByIndex(BluetoothAdapter btadapt, String name){
@@ -193,7 +189,6 @@ public class BluetoothHelper  {
 	protected List<String> getBluetoothDevicesNearMe(Context context) {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		mBluetoothAdapter.startDiscovery();
-
 		// Create a BroadcastReceiver for ACTION_FOUND
 		final List<String> discoverableDevicesList = new ArrayList<String>();
 
@@ -223,6 +218,14 @@ public class BluetoothHelper  {
 	}
 	public String getSendMessage(){
 		return this.sendMe;
+	}
+
+	public void establishConnectionAsServer(BluetoothSocket btsocket) {
+		// TODO Auto-generated method stub
+		Log.i(tag,"Starting Client");
+		ConnectedThread connectedThread = new ConnectedThread(this,btsocket,false);
+		connectedThread.start();
+		
 	}
 	
 }
