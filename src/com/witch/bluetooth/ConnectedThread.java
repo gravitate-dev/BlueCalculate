@@ -23,16 +23,15 @@ public class ConnectedThread extends Thread{
     private final OutputStream mmOutStream;
     private String tag = "witch.ConnectedThread";
     public BluetoothHelper bluetoothHelper;
-    private BluetoothMessenger bluetoothMessenger;
     public boolean bIsClient;
     private Context context;
     private Handler handler;
     public String printMe;
     public ConnectedThread(BluetoothHelper bth, BluetoothSocket socket, boolean bIsClient) {
     	bluetoothHelper = bth;
+    	bluetoothHelper.killServer();
     	context = this.bluetoothHelper.context;
     	this.bIsClient = bIsClient;
-    	bluetoothMessenger = new BluetoothMessenger();
     	Log.i(tag,"CONNETED THREAD STARTED");
         mmSocket = socket;
         InputStream tmpIn = null;
@@ -71,6 +70,7 @@ public class ConnectedThread extends Thread{
         int bytes; // bytes returned from read()
         
         if (bIsClient) {
+        	while(true) {
         //only send if i am a client
         String text = bluetoothHelper.getSendMessage();
         Log.i(tag,"Going to send:"+text);
@@ -83,14 +83,17 @@ public class ConnectedThread extends Thread{
 		}
         write(bytes_test);
         Log.i(tag,"Sent bytes");
+        try {Thread.sleep(1000);} catch (InterruptedException e) {}
+        
+        	}
         
 
-        	try {
+        	/*try {
 				mmSocket.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} //if i am a client
+			} */
         }
         // Keep listening to the InputStream until an exception occurs
         while (true) {
@@ -99,13 +102,13 @@ public class ConnectedThread extends Thread{
                 bytes = mmInStream.read(buffer);
                 String myText = new String(buffer,0,bytes,"UTF-8");
                 //lets parse it mathmatically
-                Integer x = bluetoothMessenger.solveString(myText);
+                Integer x = BluetoothMessenger.solveString(myText);
                 printMe = "Solution to: "+myText+" is "+x.toString();
-                
+                Log.i(tag,printMe);
                     handler.post(new Runnable() { // This thread runs in the UI
                         @Override
                         public void run() {
-                        	((MainActivity) context).lol(printMe);
+                        	//((MainActivity) context).lol(printMe);
                         }
                     });
                 

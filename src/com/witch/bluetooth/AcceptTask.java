@@ -16,12 +16,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class AcceptTask extends AsyncTask<Object,Void , BluetoothSocket> {
-    private BluetoothServerSocket mmServerSocket;
+    public BluetoothServerSocket mmServerSocket;
     private UUID MY_UUID;
-    private final String NAME = "Robbie";
+    private final String NAME = "BlueCalculate";
     private final String tag = "witch.AcceptThread";
     private BluetoothHelper bluetoothHelper;
     BluetoothSocket socket = null;
+    private boolean bAvoidConnect = false;
     private boolean shouldStayOpen = false; //Set true if want multiple connections
  
     public AcceptTask(BluetoothHelper bth, BluetoothAdapter bluetoothAdapter) {
@@ -41,9 +42,11 @@ public class AcceptTask extends AsyncTask<Object,Void , BluetoothSocket> {
  
     /** Will cancel the listening socket, and cause the thread to finish */
     public void cancel() {
-        try {
-            mmServerSocket.close();
-        } catch (IOException e) { }
+    	if (mmServerSocket!=null) {
+    		bAvoidConnect = true;
+        try {mmServerSocket.close();} catch (IOException e) { Log.e(tag, "Server killing error"); }
+        Log.i(tag, "Server killed");
+    	}
     }
 	
 	protected void onPostExecute(BluetoothSocket socket){
@@ -51,10 +54,12 @@ public class AcceptTask extends AsyncTask<Object,Void , BluetoothSocket> {
 		/*
 		 * i call this here IMPORTANT! Because otherwise it will 
 		 * A. crash because i create a thread inside an asyncTask
+		 * Here we also have to make sure socket is not closed
 		*/
+		if (socket!=null && bAvoidConnect==false) {
 		bluetoothHelper.establishConnectionAsServer(socket); 
+		}
 	}
-
 	@Override
 	protected BluetoothSocket doInBackground(Object... arg0) {
 		Log.i(tag,"Server started: waiting for connection...");
@@ -62,7 +67,7 @@ public class AcceptTask extends AsyncTask<Object,Void , BluetoothSocket> {
                 socket = mmServerSocket.accept();
                 
             } catch (IOException e) {
-            	Log.e(tag,"Exception here!");
+            	Log.e(tag,"Closed It!");
                 return null;
             }
                 try {

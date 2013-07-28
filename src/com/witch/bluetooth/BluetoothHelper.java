@@ -39,6 +39,8 @@ public class BluetoothHelper  {
 	final int REQUEST_ENABLE_BT = 1000;
 	final int REQUEST_PAIR_BT = 1001;
 	public Context context;
+	private ConnectedThread connectedThread;
+	private AcceptTask acceptTask;
 	public BluetoothHelper(Context context) {
 		this.context = context;
 		mArrayAdapter = new ArrayList<String>();
@@ -65,15 +67,28 @@ public class BluetoothHelper  {
 			return false;
 		}
 		
-		new AcceptTask(this, btadapt).execute(); //this starts listening for connection
-
+		acceptTask = new AcceptTask(this, btadapt);
+		acceptTask.execute(); //this starts listening for connection
 		return true;
 	}
 	
+	public void killServer() {
+		if (acceptTask!=null) {
+		acceptTask.cancel();
+		Log.i(tag, "HAULT FIEND!");
+		}
+	}
 	public void initClient(){
 		BluetoothAdapter btadapt = getAdapter();
 		final String[] items = showOthers(btadapt);
 		showAvailableDevices(btadapt, items);
+	}
+	
+	public void establishConnectionAsServer(BluetoothSocket btsocket) {
+		// TODO Auto-generated method stub
+		Log.i(tag,"Starting Client");
+		connectedThread = new ConnectedThread(this,btsocket,false);
+		connectedThread.start();
 	}
 	
 	public void startConnection(BluetoothDevice btdevice){
@@ -220,12 +235,6 @@ public class BluetoothHelper  {
 		return this.sendMe;
 	}
 
-	public void establishConnectionAsServer(BluetoothSocket btsocket) {
-		// TODO Auto-generated method stub
-		Log.i(tag,"Starting Client");
-		ConnectedThread connectedThread = new ConnectedThread(this,btsocket,false);
-		connectedThread.start();
-		
-	}
+
 	
 }

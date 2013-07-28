@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnTouchListener {
 	
 	private enum INTENTCODE {
 		SET_MATH_PROBLEM
@@ -41,42 +41,9 @@ public class MainActivity extends Activity {
 		buttonServer = (Button)findViewById(R.id.buttonServer);
 		
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
-		//bluetoothHelper.initServer();
-		//SERVER
-		buttonServer.setOnTouchListener(new OnTouchListener(){
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() != MotionEvent.ACTION_UP) return false;
-				Log.i(tag,"Server button clicked");
-				bluetoothHelper.initServer();
-				
-				return false;
-			}
-			
-		});
-		//CLIENT
-		buttonConnect.setOnTouchListener(new OnTouchListener(){
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() != MotionEvent.ACTION_UP) return false;
-				Log.i(tag,"Client button clicked starting math activity");
-				
-				//the client will be started after the intent is returned
-				Intent intent = new Intent(getBaseContext(),MathQuestionActivity.class);
-				startActivityForResult(intent,INTENTCODE.SET_MATH_PROBLEM.ordinal());
-				
-				return false;
-			}
-		}
-		);
-		
-		//bluetoothHelper.scanForOthers(); //gets other devices
-		
-		//bluetoothHelper.startDiscovery(); //discovers other phones
-		Log.i(tag,"Success");
-		
+		buttonServer.setOnTouchListener(this);
+		buttonConnect.setOnTouchListener(this);
+		Log.i(tag,"Started Activity Successfully");
 	}
 	
 	
@@ -107,6 +74,28 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		if (event.getAction() != MotionEvent.ACTION_UP) return false;
+		switch(v.getId())
+		{
+		case R.id.buttonConnect:
+			Log.i(tag,"Client button clicked starting math activity");
+			//the client will be started after the intent is returned
+			Intent intent = new Intent(getBaseContext(),MathQuestionActivity.class);
+			startActivityForResult(intent,INTENTCODE.SET_MATH_PROBLEM.ordinal());
+			break;
+		case R.id.buttonServer:
+			Log.i(tag,"Server button clicked");
+			bluetoothHelper.initServer();
+			break;
+		default:
+			break;
+		}
+		return false;
 	}
 
 }

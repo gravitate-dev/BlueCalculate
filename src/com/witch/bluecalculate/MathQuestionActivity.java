@@ -17,7 +17,6 @@ public class MathQuestionActivity extends Activity {
 	private EditText text1, text2;
 	private TextView resultBox;
 	private MotionEvent event = null;
-	private BluetoothMessenger bluetoothMessenger;
 	private int number1, number2;
 	public String finalDisplay;
 	private String bundleStringOut;
@@ -26,7 +25,6 @@ public class MathQuestionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_question);
-	bluetoothMessenger = new BluetoothMessenger();
 	
 	addButton = (Button) findViewById(R.id.addition);
 	subButton= (Button) findViewById(R.id.subtraction);
@@ -59,7 +57,7 @@ public class MathQuestionActivity extends Activity {
 	
 	finalDisplay= returnAdd(number1, number2).toString();
 	
-	bundleStringOut = bluetoothMessenger.makeMessage(number1, number2, "+");
+	bundleStringOut = BluetoothMessenger.makeMessage(number1, number2, "+");
 	finish();
 	return false;
 	}
@@ -90,7 +88,7 @@ public class MathQuestionActivity extends Activity {
 	
 	finalDisplay= returnSub(number1, number2).toString();
 	
-	bundleStringOut = bluetoothMessenger.makeMessage(number1, number2, "-");
+	bundleStringOut = BluetoothMessenger.makeMessage(number1, number2, "-");
 	finish();
 	
 	return false;
@@ -118,7 +116,6 @@ public class MathQuestionActivity extends Activity {
 	@Override
 	public void finish() {
 		//this is where we get the data
-		bluetoothMessenger.makeMessage(1, 2, MathCode.ADDITION);
 	    Intent data = new Intent();
 	    data.putExtra("sendString", bundleStringOut);
 	    setResult(RESULT_OK, data);
