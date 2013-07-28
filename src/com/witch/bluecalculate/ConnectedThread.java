@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
+import com.witch.bluetooth.BluetoothHelper;
+
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Handler;
@@ -22,12 +24,12 @@ public class ConnectedThread extends Thread{
     public BluetoothHelper bluetoothHelper;
     private BluetoothMessenger bluetoothMessenger;
     public boolean bIsClient;
-    private MainActivity ctx;
+    private Context ctx;
     private Handler handler;
     public String printMe;
     public ConnectedThread(BluetoothHelper bth, BluetoothSocket socket, boolean bIsClient) {
     	this.bluetoothHelper = bth;
-    	ctx = this.bluetoothHelper.ctx;
+    	ctx = bluetoothHelper.context;
     	this.bIsClient = bIsClient;
     	bluetoothMessenger = new BluetoothMessenger();
     	Log.i(tag,"CONNETED THREAD STARTED");
@@ -102,7 +104,7 @@ public class ConnectedThread extends Thread{
                     handler.post(new Runnable() { // This thread runs in the UI
                         @Override
                         public void run() {
-                        	ctx.lol(printMe);
+                        	((MainActivity)ctx).lol(printMe);
                         }
                     });
                 

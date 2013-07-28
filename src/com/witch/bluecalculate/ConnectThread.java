@@ -3,6 +3,8 @@ package com.witch.bluecalculate;
 import java.io.IOException;
 import java.util.UUID;
 
+import com.witch.bluetooth.BluetoothHelper;
+
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;

@@ -36,7 +36,7 @@ public class BluetoothHelper  {
 	private String sendMe = "";
 	final int REQUEST_ENABLE_BT = 1000;
 	final int REQUEST_PAIR_BT = 1001;
-	protected Context context;
+	public Context context;
 	public BluetoothHelper(Context context) {
 		this.context = context;
 		mArrayAdapter = new ArrayList<String>();

@@ -1,28 +1,31 @@
-package com.witch.bluecalculate;
+package com.witch.bluetooth;
 
 import java.io.IOException;
 import java.util.UUID;
 
-import com.witch.bluetooth.BluetoothHelper;
+import com.witch.bluecalculate.MainActivity;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-class AcceptThread extends Thread {
+public class AcceptTask extends AsyncTask<Void, Void, Void> {
     private final BluetoothServerSocket mmServerSocket;
     private UUID MY_UUID;
     private final String NAME = "Robbie";
     private final String tag = "AcceptThread";
     private MainActivity ctx;
     private BluetoothHelper bluetoothHelper;
+    BluetoothSocket socket = null;
     private boolean shouldStayOpen = false; //Set true if want multiple connections
  
-    public AcceptThread(BluetoothHelper bth, BluetoothAdapter bluetoothAdapter) {
+    public AcceptTask(BluetoothHelper bth, BluetoothAdapter bluetoothAdapter) {
     	this.bluetoothHelper = bth;
     	
         // Use a temporary object that is later assigned to mmServerSocket,
@@ -37,9 +40,19 @@ class AcceptThread extends Thread {
         
     }
  
-    @SuppressLint("NewApi")
-	public void run() {
-        BluetoothSocket socket = null;
+    /** Will cancel the listening socket, and cause the thread to finish */
+    public void cancel() {
+        try {
+            mmServerSocket.close();
+        } catch (IOException e) { }
+    }
+
+	@Override
+	protected Void doInBackground(Void... arg0) {
+		// TODO Auto-generated method stub
+		
+
+        
         // Keep listening until exception occurs or a socket is returned
         Log.i(tag,"Server started: waiting for connection...");
         while (true) {
@@ -50,34 +63,33 @@ class AcceptThread extends Thread {
             	Log.e(tag,"Exception here!");
                 break;
             }
-            // If a connection was accepted
-            if (socket != null) {
-            	Log.i(tag,"Connection Established");
-                // Do work to manage the connection (in a separate thread)
-        			try {
-        		ConnectedThread connectedThread = new ConnectedThread(this.bluetoothHelper,socket,false);
-        		connectedThread.start();
-        			} catch (Exception e){
-        				e.printStackTrace();
-        				
-        			}
-                try {
-					mmServerSocket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-                if (shouldStayOpen==false)
-                	return;
-            }
+            
         }
-    }
- 
-    /** Will cancel the listening socket, and cause the thread to finish */
-    public void cancel() {
-        try {
-            mmServerSocket.close();
-        } catch (IOException e) { }
-    }
+		return null;
+	}
+	
+	protected void onPostExecute(Void param) {
+		// If a connection was accepted
+        if (socket != null) {
+        	Log.i(tag,"Connection Established");
+            // Do work to manage the connection (in a separate thread)
+    			try {
+    			Looper.prepare();
+    		ConnectedThread connectedThread = new ConnectedThread(this.bluetoothHelper,socket,false);
+    		connectedThread.start();
+    			} catch (Exception e){
+    				e.printStackTrace();
+    				
+    			}
+            try {
+				mmServerSocket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+            if (shouldStayOpen==false)
+            	return;
+        }
+	}
 }
