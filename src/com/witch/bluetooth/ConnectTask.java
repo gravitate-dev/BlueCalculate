@@ -38,7 +38,7 @@ class ConnectTask {
             mmSocket.connect(); // Connect the device through the socket. This will block until connnected!
             setupConnection(mmSocket);
         } catch (IOException connectException) {
-        	Toast.makeText(bluetoothHelper.context, "You need the other device to be listening first", Toast.LENGTH_LONG).show();
+        	//Toast.makeText(bluetoothHelper.context, "You need the other device to be listening first", Toast.LENGTH_LONG).show();
         	Log.e(tag,"Uhoh booboo"+connectException.getMessage());
             // Unable to connect; close the socket and get out
             try {mmSocket.close();} catch (IOException closeException) { }

@@ -97,7 +97,7 @@ public class ConnectedThread extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        	write("1+1");
+        	write(bluetoothHelper.getSendMessage());
         // Keep listening to the InputStream until an exception occurs
         while (true) {
             try {
@@ -105,13 +105,13 @@ public class ConnectedThread extends Thread{
                 bytes = mmInStream.read(buffer);
                 String myText = new String(buffer,0,bytes,"UTF-8");
                 //lets parse it mathmatically
-                //Integer x = BluetoothMessenger.solveString(myText);
-                printMe = "Solution to: "+myText+" is ";
+                Integer x = BluetoothMessenger.solveString(myText);
+                printMe = myText+"="+ x.toString();
                 Log.i(tag,printMe);
                     handler.post(new Runnable() { // This thread runs in the UI
                         @Override
                         public void run() {
-                        	((MainActivity) context).lol(printMe);
+                        	((MainActivity) context).updateMainTextAnswer(printMe);
                         }
                     });
                 

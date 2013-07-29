@@ -5,14 +5,6 @@
     android:background="#ffffff"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/debugText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="" />
-
     <Button
         android:id="@+id/buttonConnect"
         android:layout_width="wrap_content"
@@ -20,5 +12,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="Send a math problem" />
+    
+    <TextView
+        android:id="@+id/textView_Answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/buttonConnect"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

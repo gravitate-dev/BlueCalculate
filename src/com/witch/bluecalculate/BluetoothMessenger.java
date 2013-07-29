@@ -24,6 +24,8 @@ public class BluetoothMessenger {
 	}
 	
 	public static Integer solveString (String expression){
+		if (expression==null) return 0;
+		if (expression.equals(""))return 0;
 		//only works with binary arithmetic expressions i.e. 2+2
 		String[] splitExp;
 		String op="";

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,9 +27,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		SET_MATH_PROBLEM
 	}
 	private String tag = "witch.MainActivity";
-	private TextView textViewOutput;
 	private Button buttonConnect;
 	private BluetoothHelper bluetoothHelper;
+	private TextView tv_Answer;
 	public static Activity activity;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		setContentView(R.layout.activity_main);
 		activity = this;
 		
-		textViewOutput = (TextView)findViewById(R.id.debugText);
+		tv_Answer = (TextView)findViewById(R.id.textView_Answer);
+		tv_Answer.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
 		buttonConnect = (Button)findViewById(R.id.buttonConnect);
 		
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
@@ -65,13 +67,14 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	
 	
-	public void lol(String s)
+	public void updateMainTextAnswer(String s)
 	{
 		/*String old = textViewOutput.getText().toString();
 		old +="\n"+s;
 		textViewOutput.setText(old);
 		*/
-		Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
+		//Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
+		tv_Answer.setText(s);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -9,7 +9,7 @@
     tools:context=".MathQuestionActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView_Answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint=""
@@ -19,8 +19,8 @@
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/textView_Answer"
+        android:layout_below="@+id/textView_Answer"
         android:layout_marginTop="56dp"
         android:ems="10"
         android:inputType="number|numberSigned"
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/addition"
         android:layout_alignBottom="@+id/addition"
-        android:layout_toRightOf="@+id/textView1"
+        android:layout_toRightOf="@+id/textView_Answer"
         android:text="@string/minus" />
 
 </RelativeLayout>
