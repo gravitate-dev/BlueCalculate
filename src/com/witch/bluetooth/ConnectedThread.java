@@ -29,9 +29,18 @@ public class ConnectedThread extends Thread{
     public String printMe;
     public ConnectedThread(BluetoothHelper bth, BluetoothSocket socket, boolean bIsClient) {
     	bluetoothHelper = bth;
-    	bluetoothHelper.killServer();
+    	//bluetoothHelper.killServer();
     	context = this.bluetoothHelper.context;
     	this.bIsClient = bIsClient;
+    	if (bIsClient){
+    		Log.i(tag,"I AM CLIENT!");
+    		bluetoothHelper.setIsClientConnected(true);
+    	} else { //if i am not the client then i will have to connect to the guy who connected to me!
+    		//THIS CAN CAUSE BUGS but it auto connects back to the guy who connects
+    		//So phone_A connects to phone_B and thats it, BUT WITH THIS LINE OF CODE
+    		//it will auto conenct phone_B back to phone_A!
+    		bluetoothHelper.startConnection(socket.getRemoteDevice());
+    	}
     	Log.i(tag,"CONNETED THREAD STARTED");
         mmSocket = socket;
         InputStream tmpIn = null;
@@ -56,6 +65,19 @@ public class ConnectedThread extends Thread{
             mmOutStream.write(bytes);
         } catch (IOException e) { }
     }
+    
+    public void write(String s){
+    	Log.i(tag,"Trying this");
+        byte[] bytes_test = null;
+		try {
+			bytes_test = s.getBytes("UTF-8");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Log.e(tag,"Someting happened"+e.getMessage());
+		}
+        write(bytes_test);
+        Log.i(tag,"Sent bytes");
+    }
  
     /* Call this from the main activity to shutdown the connection */
     public void cancel() {
@@ -69,32 +91,13 @@ public class ConnectedThread extends Thread{
     	byte[] buffer = new byte[1024];  // buffer store for the stream
         int bytes; // bytes returned from read()
         
-        if (bIsClient) {
-        	while(true) {
-        //only send if i am a client
-        String text = bluetoothHelper.getSendMessage();
-        Log.i(tag,"Going to send:"+text);
-        byte[] bytes_test = null;
-		try {
-			bytes_test = text.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        write(bytes_test);
-        Log.i(tag,"Sent bytes");
-        try {Thread.sleep(1000);} catch (InterruptedException e) {}
-        
-        	}
-        
-
-        	/*try {
-				mmSocket.close();
-			} catch (IOException e1) {
+        	try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} */
-        }
+				e.printStackTrace();
+			}
+        	write("1+1");
         // Keep listening to the InputStream until an exception occurs
         while (true) {
             try {
@@ -102,13 +105,13 @@ public class ConnectedThread extends Thread{
                 bytes = mmInStream.read(buffer);
                 String myText = new String(buffer,0,bytes,"UTF-8");
                 //lets parse it mathmatically
-                Integer x = BluetoothMessenger.solveString(myText);
-                printMe = "Solution to: "+myText+" is "+x.toString();
+                //Integer x = BluetoothMessenger.solveString(myText);
+                printMe = "Solution to: "+myText+" is ";
                 Log.i(tag,printMe);
                     handler.post(new Runnable() { // This thread runs in the UI
                         @Override
                         public void run() {
-                        	//((MainActivity) context).lol(printMe);
+                        	((MainActivity) context).lol(printMe);
                         }
                     });
                 
@@ -116,7 +119,7 @@ public class ConnectedThread extends Thread{
             	
             } catch (IOException e) {
             	Log.e(tag,"WIERD ERROR OMG"+e.getMessage());
-                break;
+            	break;
             }
         }                  
         }

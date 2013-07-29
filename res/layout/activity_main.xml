@@ -21,12 +21,4 @@
         android:layout_alignParentTop="true"
         android:text="Send a math problem" />
 
-    <Button
-        android:id="@+id/buttonServer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/debugText"
-        android:layout_alignParentLeft="true"
-        android:text="Listen for math problem" />
-
 </RelativeLayout>

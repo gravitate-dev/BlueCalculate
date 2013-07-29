@@ -39,8 +39,10 @@ public class BluetoothHelper  {
 	final int REQUEST_ENABLE_BT = 1000;
 	final int REQUEST_PAIR_BT = 1001;
 	public Context context;
-	private ConnectedThread connectedThread;
+	private ConnectedThread connectedThread,connectedThreadA;
+	private ConnectTask connectTask;
 	private AcceptTask acceptTask;
+	private boolean bIsConnectedAsClient = false;
 	public BluetoothHelper(Context context) {
 		this.context = context;
 		mArrayAdapter = new ArrayList<String>();
@@ -78,6 +80,9 @@ public class BluetoothHelper  {
 		Log.i(tag, "HAULT FIEND!");
 		}
 	}
+	
+	
+	//knowing the device allows u to connect directly
 	public void initClient(){
 		BluetoothAdapter btadapt = getAdapter();
 		final String[] items = showOthers(btadapt);
@@ -89,11 +94,14 @@ public class BluetoothHelper  {
 		Log.i(tag,"Starting Client");
 		connectedThread = new ConnectedThread(this,btsocket,false);
 		connectedThread.start();
+		//bIsConnected = true;
 	}
 	
 	public void startConnection(BluetoothDevice btdevice){
-        ConnectThread connectThread = new ConnectThread(this,btdevice);
-        connectThread.connect();
+		//here we can check to see if a connection is already established
+		connectTask = new ConnectTask(this,btdevice);
+		connectTask.connect();
+		//bIsConnectedAsClient = true;
 	}
 	
 	public void showAvailableDevices(final BluetoothAdapter btadapt, final String[] items){
@@ -231,8 +239,30 @@ public class BluetoothHelper  {
 	public void setSendMessage(String sendMe) {
 		this.sendMe = sendMe;
 	}
+	
+	public void sendMessage(String s){
+		if (connectedThread!=null){
+			Log.i(tag,"here");
+				connectedThread.write(s);
+		}
+	}
 	public String getSendMessage(){
 		return this.sendMe;
+	}
+	
+	public boolean isConnectedAsClient() { //returns if connected already
+		return bIsConnectedAsClient;
+	}
+	
+	public void setIsClientConnected(boolean b){
+		this.bIsConnectedAsClient = b;
+	}
+	
+	public void sendTest(){
+		if (connectedThread!=null){
+			Log.i(tag,"here");
+				connectedThread.write("Teddy bear!");
+		}
 	}
 
 

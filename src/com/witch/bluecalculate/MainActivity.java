@@ -27,7 +27,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	private String tag = "witch.MainActivity";
 	private TextView textViewOutput;
-	private Button buttonConnect, buttonServer;
+	private Button buttonConnect;
 	private BluetoothHelper bluetoothHelper;
 	public static Activity activity;
 	@Override
@@ -38,11 +38,12 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		
 		textViewOutput = (TextView)findViewById(R.id.debugText);
 		buttonConnect = (Button)findViewById(R.id.buttonConnect);
-		buttonServer = (Button)findViewById(R.id.buttonServer);
 		
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
-		buttonServer.setOnTouchListener(this);
 		buttonConnect.setOnTouchListener(this);
+		
+		//start server when its loaded 
+		bluetoothHelper.initServer();
 		Log.i(tag,"Started Activity Successfully");
 	}
 	
@@ -55,7 +56,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	        if (resultCode == RESULT_OK) {
 	        	String sendMe = data.getStringExtra("sendString");
 	        	bluetoothHelper.setSendMessage(sendMe);
-	            bluetoothHelper.initClient();
+	        	if (bluetoothHelper.isConnectedAsClient()==false)
+	        		bluetoothHelper.initClient();
+	        	else
+	        		bluetoothHelper.sendMessage(sendMe);
 	        }
 	    }
 	}
@@ -88,10 +92,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 			Intent intent = new Intent(getBaseContext(),MathQuestionActivity.class);
 			startActivityForResult(intent,INTENTCODE.SET_MATH_PROBLEM.ordinal());
 			break;
-		case R.id.buttonServer:
-			Log.i(tag,"Server button clicked");
-			bluetoothHelper.initServer();
-			break;
+		//case R.id.buttonServer:
+			//Log.i(tag,"Server button clicked");
+			//bluetoothHelper.initServer();
+			//break;
 		default:
 			break;
 		}
