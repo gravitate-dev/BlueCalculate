@@ -17,7 +17,6 @@ public class MathQuestionActivity extends Activity {
 	private EditText text1, text2;
 	private TextView resultBox;
 	private MotionEvent event = null;
-	private BluetoothMessenger bluetoothMessenger;
 	private int number1, number2;
 	public String finalDisplay;
 	private String bundleStringOut;
@@ -26,7 +25,6 @@ public class MathQuestionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_question);
-	bluetoothMessenger = new BluetoothMessenger();
 	
 	addButton = (Button) findViewById(R.id.addition);
 	subButton= (Button) findViewById(R.id.subtraction);
@@ -37,61 +35,22 @@ public class MathQuestionActivity extends Activity {
 	addButton.setOnTouchListener(new OnTouchListener(){
 	
 	@Override
-	public boolean onTouch(View arg0, MotionEvent event) {
-	// TODO Auto-generated method stub
-	
+	public boolean onTouch(View arg0, MotionEvent event) {	
 	if (event.getAction()!= MotionEvent.ACTION_DOWN)
+		return false;
+	
+	setNumbers_finalDisplay_bundleStringOut('+');
 	return false;
-	
-	try {
-	number1 = Integer.parseInt(text1.getText().toString());
-	} catch (NumberFormatException nfe){
-	System.out.println("Could not parse " + nfe);
-	number1=0;
-	}
-	
-	try {
-	number2 = Integer.parseInt(text2.getText().toString());
-	} catch (NumberFormatException nfe){
-	System.out.println("Could not parse " + nfe);	
-	number2=0;
-	}
-	
-	finalDisplay= returnAdd(number1, number2).toString();
-	
-	bundleStringOut = bluetoothMessenger.makeMessage(number1, number2, "+");
-	finish();
-	return false;
-	}
-	
+	}	
 	});
 	
 	subButton.setOnTouchListener(new OnTouchListener(){
 	
 	@Override
 	public boolean onTouch(View arg0, MotionEvent event){
-	
 	if (event.getAction()!= MotionEvent.ACTION_DOWN)
 		return false;
-	
-	try {
-		number1 = Integer.parseInt(text1.getText().toString());
-	} catch (NumberFormatException nfe){
-		System.out.println("Could not parse " + nfe);
-		number1=0;
-	}
-	
-	try {
-		number2 = Integer.parseInt(text2.getText().toString());
-	} catch (NumberFormatException nfe){
-		System.out.println("Could not parse " + nfe);	
-		number2=0;
-	}
-	
-	finalDisplay= returnSub(number1, number2).toString();
-	
-	bundleStringOut = bluetoothMessenger.makeMessage(number1, number2, "-");
-	finish();
+	setNumbers_finalDisplay_bundleStringOut('-');
 	
 	return false;
 	}
@@ -99,26 +58,42 @@ public class MathQuestionActivity extends Activity {
 	
 	}
 	
-	public Integer returnAdd(int a, int b){
-		int sum=0;	
-		sum= a+b;	
-		Integer result= Integer.valueOf(sum);
-		
-		return result;
+	private void setNumbers_finalDisplay_bundleStringOut(char operator){
+		try {
+		number1 = Integer.parseInt(text1.getText().toString());
+		} catch (NumberFormatException nfe){
+		number1=0;
+		}
+		try {
+		number2 = Integer.parseInt(text2.getText().toString());
+		} catch (NumberFormatException nfe){
+		number2=0;
+		}
+		String op= "" + operator; //making an equivalent String
+		finalDisplay= returnAnswer(number1, number2, operator).toString();
+		bundleStringOut = BluetoothMessenger.makeMessage(number1, number2, op);
+		finish();
 	}
 	
-	public Integer returnSub(int a, int b){
-		int sum=0;	
-		sum= a-b;	
-		Integer result= Integer.valueOf(sum);
-		
-		return result;
+	public Integer returnAnswer(int a, int b, char operator){
+		int ans_int=0;
+		switch (operator){
+			case '+':
+				ans_int= a+b;
+				break;
+			case '-':
+				ans_int=a-b;
+				break;
+			default:
+				break;
+		}
+		Integer answer= Integer.valueOf(ans_int);
+		return answer;
 	}
 	
 	@Override
 	public void finish() {
 		//this is where we get the data
-		bluetoothMessenger.makeMessage(1, 2, MathCode.ADDITION);
 	    Intent data = new Intent();
 	    data.putExtra("sendString", bundleStringOut);
 	    setResult(RESULT_OK, data);

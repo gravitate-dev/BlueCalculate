@@ -10,20 +10,18 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-class ConnectThread {
+class ConnectTask {
     private final BluetoothSocket mmSocket;
-    private final BluetoothDevice mmDevice;
     private final String tag = "witch.ConnectThread";
     private BluetoothHelper bluetoothHelper;
     
  
-    public ConnectThread(BluetoothHelper bth, BluetoothDevice device) {
+    public ConnectTask(BluetoothHelper bth, BluetoothDevice device) {
     	this.bluetoothHelper = bth; 
         // Use a temporary object that is later assigned to mmSocket,
         // because mmSocket is final
         BluetoothSocket tmp = null;
         
-        mmDevice = device;
         // Get a BluetoothSocket to connect with the given BluetoothDevice
         try {
             // MY_UUID is the app's UUID string, also used by the server code
@@ -37,25 +35,20 @@ class ConnectThread {
         //mBluetoothAdapter.cancelDiscovery();
     	if (mmSocket.isConnected()==false){
         try {
-            // Connect the device through the socket. This will block
-            // until it succeeds or throws an exception
-            mmSocket.connect();
+            mmSocket.connect(); // Connect the device through the socket. This will block until connnected!
+            setupConnection(mmSocket);
         } catch (IOException connectException) {
-        	Toast.makeText(bluetoothHelper.context, "You need the other device to be listening first", Toast.LENGTH_LONG).show();
-        	
+        	//Toast.makeText(bluetoothHelper.context, "You need the other device to be listening first", Toast.LENGTH_LONG).show();
         	Log.e(tag,"Uhoh booboo"+connectException.getMessage());
             // Unable to connect; close the socket and get out
-            try {
-                mmSocket.close();
-            } catch (IOException closeException) { }
+            try {mmSocket.close();} catch (IOException closeException) { }
             return;
         }
-    	} else {
+    	} else { 
+    		//already connected so lets use the same pipe
     		Log.i(tag,"Reconnecting NOT GONNA CONNECT AGAIN!");
     	}
- 
-        // Do work to manage the connection (in a separate thread)
-        setupConnection(mmSocket);
+        
     }
     
     public void setupConnection(BluetoothSocket socket){

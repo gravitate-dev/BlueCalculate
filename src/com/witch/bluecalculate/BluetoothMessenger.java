@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class BluetoothMessenger {
 	
-	private String finalString, secondNum, firstNum;
+	
 	public static enum Code {
 		ADDITION,
 		SUBTRACTION
@@ -15,15 +15,17 @@ public class BluetoothMessenger {
 
 	}
 	
-	public String makeMessage(int first, int second, String operator){
-		
+	public static String makeMessage(int first, int second, String operator){
+		String finalString, secondNum, firstNum;
 		firstNum=  Integer.valueOf(first).toString();
 		secondNum=  Integer.valueOf(second).toString();
 		finalString= firstNum + " " + operator + " " + secondNum;
 		return finalString;
 	}
 	
-	public Integer solveString (String expression){
+	public static Integer solveString (String expression){
+		if (expression==null) return 0;
+		if (expression.equals(""))return 0;
 		//only works with binary arithmetic expressions i.e. 2+2
 		String[] splitExp;
 		String op="";
