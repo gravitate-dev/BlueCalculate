@@ -7,6 +7,7 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -44,11 +45,17 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
 		buttonConnect.setOnTouchListener(this);
 		
-		//start server when its loaded 
-		bluetoothHelper.initServer();
-		Log.i(tag,"Started Activity Successfully");
+		//start server when its loaded
+		//server should start here
+		if (bluetoothHelper.initServer()==true)
+			Log.i(tag,"Started Activity Successfully");
 	}
 	
+	@Override
+	protected void onStop(){
+		super.onStop();
+		Log.i(tag,"on Stop!");
+	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -63,6 +70,13 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	        	else
 	        		bluetoothHelper.sendMessage(sendMe);
 	        }
+	    }
+	    if (requestCode == 1005) {
+	    	//this means start bluetooth
+	    	if (bluetoothHelper.initServer()==false)
+			{
+	    		Log.e(tag,"bad error even after bluetooth is on!");
+			}
 	    }
 	}
 	
@@ -103,6 +117,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 			break;
 		}
 		return false;
+	}
+	
+	public void requestBluetoothOn(){
+		startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),1005);
 	}
 
 }

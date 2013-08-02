@@ -59,15 +59,12 @@ public class MathQuestionActivity extends Activity {
 	}
 	
 	private void setNumbers_finalDisplay_bundleStringOut(char operator){
+		number1=0;
+		number2=0;
 		try {
 		number1 = Integer.parseInt(text1.getText().toString());
-		} catch (NumberFormatException nfe){
-		number1=0;
-		}
-		try {
 		number2 = Integer.parseInt(text2.getText().toString());
 		} catch (NumberFormatException nfe){
-		number2=0;
 		}
 		String op= "" + operator; //making an equivalent String
 		finalDisplay= returnAnswer(number1, number2, operator).toString();
