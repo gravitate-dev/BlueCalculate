@@ -118,7 +118,11 @@ public class ConnectedThread extends Thread{
                 //Toast.makeText(this.bluetoothHelper.ctx, "Message:"+myText, Toast.LENGTH_SHORT).show();
             	
             } catch (IOException e) {
-            	Log.e(tag,"WIERD ERROR OMG"+e.getMessage());
+            	Log.e(tag,"Connection lost restarting daemeon!"+e.getMessage()); //this is important because once one device disconnects both phones must restart their passive open listening server
+            	if (bluetoothHelper.isConnectedAsClient()==true) {
+            		bluetoothHelper.setIsClientConnected(false);
+            		bluetoothHelper.initServer();
+            	}
             	break;
             }
         }                  

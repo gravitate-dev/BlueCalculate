@@ -53,7 +53,8 @@ public class BluetoothHelper  {
 		}
 		
 		if (!mBluetoothAdapter.isEnabled()) {
-		    context.startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
+			Log.e(tag,"Initalization failure, Device bluetooth off");
+			((MainActivity) context).requestBluetoothOn();
 		}
 	}
 	
@@ -61,6 +62,9 @@ public class BluetoothHelper  {
 		return mBluetoothAdapter;		
 	}
 	public boolean initServer(){
+		if (!mBluetoothAdapter.isEnabled()) {
+			return false;
+		}
 		/*After initalized we will start the server */
 		BluetoothAdapter btadapt = getAdapter();
 		Log.i(tag,"Starting accept thread");
@@ -84,9 +88,14 @@ public class BluetoothHelper  {
 	
 	//knowing the device allows u to connect directly
 	public void initClient(){
+		if (!mBluetoothAdapter.isEnabled()) {
+			Log.e(tag,"Initalization failure, Device bluetooth off");
+			((MainActivity) context).requestBluetoothOn();
+		} else {
 		BluetoothAdapter btadapt = getAdapter();
 		final String[] items = showOthers(btadapt);
 		showAvailableDevices(btadapt, items);
+		}
 	}
 	
 	public void establishConnectionAsServer(BluetoothSocket btsocket) {

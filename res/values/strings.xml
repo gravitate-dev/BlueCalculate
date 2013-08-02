@@ -7,13 +7,5 @@
     <string name="userDirection_InputText">Input number into the box</string>
     <string name="add">+</string>
     <string name="minus">-</string>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    <string name="send_problemButton">Send a math problem</string>
->>>>>>> origin/jessica
-=======
-    <string name="send_problemButton">Send a math problem</string>
->>>>>>> origin/jessica
 
 </resources>

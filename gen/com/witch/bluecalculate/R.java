@@ -20,34 +20,16 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        public static final int TextView01=0x7f090003;
-        public static final int addition=0x7f090005;
-        public static final int buttonConnect=0x7f090000;
-        public static final int editText1=0x7f090002;
-        public static final int editText2=0x7f090004;
-        public static final int menu_settings=0x7f090007;
-        public static final int subtraction=0x7f090006;
-        public static final int textView_Answer=0x7f090001;
-=======
-=======
->>>>>>> origin/jessica
         public static final int TextView01=0x7f090001;
-        public static final int addition=0x7f090003;
-        public static final int editText1=0x7f090004;
+        public static final int addition=0x7f090004;
+        public static final int editText1=0x7f090003;
         public static final int editText2=0x7f090002;
         public static final int menu_settings=0x7f090006;
         public static final int subtraction=0x7f090005;
         public static final int textView_Answer=0x7f090000;
-<<<<<<< HEAD
->>>>>>> origin/jessica
-=======
->>>>>>> origin/jessica
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int activity_question=0x7f030001;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
@@ -58,14 +40,6 @@ public final class R {
         public static final int hello_world=0x7f060002;
         public static final int menu_settings=0x7f060001;
         public static final int minus=0x7f060005;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        public static final int send_problemButton=0x7f060006;
->>>>>>> origin/jessica
-=======
-        public static final int send_problemButton=0x7f060006;
->>>>>>> origin/jessica
         public static final int userDirection_InputText=0x7f060003;
     }
     public static final class style {
