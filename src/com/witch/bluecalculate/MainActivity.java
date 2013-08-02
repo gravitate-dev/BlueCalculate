@@ -32,11 +32,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private BluetoothHelper bluetoothHelper;
 	private TextView tv_Answer;
 	public static Activity activity;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/jessica
 	/*start*/
 	private Button addButton, subButton;
 	private EditText text1, text2;
@@ -47,10 +42,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private String bundleStringOut;
 	/*end*/
 	
-<<<<<<< HEAD
->>>>>>> origin/jessica
-=======
->>>>>>> origin/jessica
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,19 +50,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		
 		tv_Answer = (TextView)findViewById(R.id.textView_Answer);
 		tv_Answer.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
-<<<<<<< HEAD
-<<<<<<< HEAD
-		buttonConnect = (Button)findViewById(R.id.buttonConnect);
-		
+
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
-		buttonConnect.setOnTouchListener(this);
-=======
-		
-		bluetoothHelper = new BluetoothHelper(MainActivity.this);
-=======
-		
-		bluetoothHelper = new BluetoothHelper(MainActivity.this);
->>>>>>> origin/jessica
 	/*start*/	
 		addButton = (Button) findViewById(R.id.addition);
 		subButton= (Button) findViewById(R.id.subtraction);
@@ -104,10 +84,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		}
 		});
 		/*end*/
-<<<<<<< HEAD
->>>>>>> origin/jessica
-=======
->>>>>>> origin/jessica
 		
 		//start server when its loaded 
 		bluetoothHelper.initServer();
@@ -120,25 +96,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	    // Check which request we're responding to
 	    if (requestCode == INTENTCODE.SET_MATH_PROBLEM.ordinal()) {
 	        // Make sure the request was successful
-	        if (resultCode == RESULT_OK) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-	        	String sendMe = data.getStringExtra("sendString");
-	        	bluetoothHelper.setSendMessage(sendMe);
-	        	if (bluetoothHelper.isConnectedAsClient()==false)
-	        		bluetoothHelper.initClient();
-	        	else
-	        		bluetoothHelper.sendMessage(sendMe);
-	        }
 	    }
-	}
-	
-	
-=======
-	        	
-	        }
-	    }
-	}
+	}	
 	
 	public void sendIT(String sendMe) {
     	bluetoothHelper.setSendMessage(sendMe);
@@ -147,23 +106,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     	else
     		bluetoothHelper.sendMessage(sendMe);
 	}
-	
->>>>>>> origin/jessica
-=======
-	        	
-	        }
-	    }
-	}
-	
-	public void sendIT(String sendMe) {
-    	bluetoothHelper.setSendMessage(sendMe);
-    	if (bluetoothHelper.isConnectedAsClient()==false)
-    		bluetoothHelper.initClient();
-    	else
-    		bluetoothHelper.sendMessage(sendMe);
-	}
-	
->>>>>>> origin/jessica
 	public void updateMainTextAnswer(String s)
 	{
 		/*String old = textViewOutput.getText().toString();
@@ -186,33 +128,11 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		if (event.getAction() != MotionEvent.ACTION_UP) return false;
 		switch(v.getId())
 		{
-<<<<<<< HEAD
-<<<<<<< HEAD
-		case R.id.buttonConnect:
-			Log.i(tag,"Client button clicked starting math activity");
-			//the client will be started after the intent is returned
-			Intent intent = new Intent(getBaseContext(),MathQuestionActivity.class);
-			startActivityForResult(intent,INTENTCODE.SET_MATH_PROBLEM.ordinal());
-			break;
-		//case R.id.buttonServer:
-			//Log.i(tag,"Server button clicked");
-			//bluetoothHelper.initServer();
-			//break;
-=======
->>>>>>> origin/jessica
-=======
->>>>>>> origin/jessica
 		default:
 			break;
 		}
 		return false;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-=======
->>>>>>> origin/jessica
 	/*start*/
 	private void setNumbers_finalDisplay_bundleStringOut(char operator){
 		number1=0;
@@ -242,8 +162,4 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		return answer;
 	}
 	/*end*/
-<<<<<<< HEAD
->>>>>>> origin/jessica
-=======
->>>>>>> origin/jessica
 }
