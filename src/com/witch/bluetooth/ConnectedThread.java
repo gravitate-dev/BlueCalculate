@@ -98,12 +98,18 @@ public class ConnectedThread extends Thread{
 				e.printStackTrace();
 			}
         	write(bluetoothHelper.getSendMessage());
+        	if (bluetoothHelper.getSendMessage().contains("kill")) {
+        		bluetoothHelper.safeResetServer();
+            	return;
+        	}
         // Keep listening to the InputStream until an exception occurs
         while (true) {
             try {
                 // Read from the InputStream
                 bytes = mmInStream.read(buffer);
                 String myText = new String(buffer,0,bytes,"UTF-8");
+                if (myText.contains("kill")) throw new IOException(); //sneaky way of killing server
+                	
                 //lets parse it mathmatically
                 Integer x = BluetoothMessenger.solveString(myText);
                 printMe = myText+"="+ x.toString();
@@ -119,10 +125,7 @@ public class ConnectedThread extends Thread{
             	
             } catch (IOException e) {
             	Log.e(tag,"Connection lost restarting daemeon!"+e.getMessage()); //this is important because once one device disconnects both phones must restart their passive open listening server
-            	if (bluetoothHelper.isConnectedAsClient()==true) {
-            		bluetoothHelper.setIsClientConnected(false);
-            		bluetoothHelper.initServer();
-            	}
+            	bluetoothHelper.safeResetServer();
             	break;
             }
         }                  

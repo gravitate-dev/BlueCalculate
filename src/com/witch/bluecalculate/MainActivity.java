@@ -142,10 +142,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private void setNumbers_finalDisplay_bundleStringOut(char operator){
 		number1=0;
 		number2=0;
-		try {
-		number1 = Integer.parseInt(text1.getText().toString());
-		number2 = Integer.parseInt(text2.getText().toString());
-		} catch (NumberFormatException nfe){}
+		try {number1 = Integer.parseInt(text1.getText().toString());} catch (NumberFormatException nfe){}
+		try {number2 = Integer.parseInt(text2.getText().toString());} catch (NumberFormatException nfe){}
+		
 		String op= "" + operator; //making an equivalent String
 		finalDisplay= returnAnswer(number1, number2, operator).toString();
 		bundleStringOut = BluetoothMessenger.makeMessage(number1, number2, op);
@@ -167,6 +166,34 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		return answer;
 	}
 	/*end*/
+	
+	public void onBackPressed() {
+		   Log.i("HA", "Finishing");
+		   finish();
+		 }
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		//bluetoothHelper.endAnyOpenConnections();
+		//here i will set up a boolean that will be read when the android will resume
+		//
+		//bluetoothHelper.setShouldRestartOnResume(true);
+		
+		//Log.i(tag, "PAUSE NOT YET SUPPORTED");
+		//finish();
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		/*
+		if (bluetoothHelper.shouldRestartOnResume()) {
+			bluetoothHelper.safeResetServer();
+			bluetoothHelper.setShouldRestartOnResume(false);
+		}*/
+	}
+	
 	
 	public void requestBluetoothOn(){
 		startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),1005);

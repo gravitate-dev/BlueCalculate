@@ -43,6 +43,7 @@ public class BluetoothHelper  {
 	private ConnectTask connectTask;
 	private AcceptTask acceptTask;
 	private boolean bIsConnectedAsClient = false;
+	private boolean shouldRestartOnResume;
 	public BluetoothHelper(Context context) {
 		this.context = context;
 		mArrayAdapter = new ArrayList<String>();
@@ -267,11 +268,34 @@ public class BluetoothHelper  {
 		this.bIsConnectedAsClient = b;
 	}
 	
+	public void endAnyOpenConnections(){
+		if (isConnectedAsClient()==true)
+    		sendMessage("kill");
+	}
 	public void sendTest(){
 		if (connectedThread!=null){
 			Log.i(tag,"here");
 				connectedThread.write("Teddy bear!");
 		}
+	}
+	
+	public boolean safeResetServer(){
+		if (isConnectedAsClient()==true) {
+    		setIsClientConnected(false);
+    		initServer();
+    		return true;
+    	} else return false;
+	}
+
+	public void setShouldRestartOnResume(boolean b) {
+		// TODO Auto-generated method stub
+		shouldRestartOnResume = b;
+		
+	}
+
+	public boolean shouldRestartOnResume() {
+		// TODO Auto-generated method stub
+		return shouldRestartOnResume;
 	}
 
 
