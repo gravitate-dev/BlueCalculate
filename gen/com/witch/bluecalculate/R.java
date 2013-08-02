@@ -21,6 +21,7 @@ public final class R {
     }
     public static final class id {
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final int TextView01=0x7f090003;
         public static final int addition=0x7f090005;
         public static final int buttonConnect=0x7f090000;
@@ -30,6 +31,8 @@ public final class R {
         public static final int subtraction=0x7f090006;
         public static final int textView_Answer=0x7f090001;
 =======
+=======
+>>>>>>> origin/jessica
         public static final int TextView01=0x7f090001;
         public static final int addition=0x7f090003;
         public static final int editText1=0x7f090004;
@@ -37,6 +40,9 @@ public final class R {
         public static final int menu_settings=0x7f090006;
         public static final int subtraction=0x7f090005;
         public static final int textView_Answer=0x7f090000;
+<<<<<<< HEAD
+>>>>>>> origin/jessica
+=======
 >>>>>>> origin/jessica
     }
     public static final class layout {
@@ -53,6 +59,10 @@ public final class R {
         public static final int menu_settings=0x7f060001;
         public static final int minus=0x7f060005;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        public static final int send_problemButton=0x7f060006;
+>>>>>>> origin/jessica
 =======
         public static final int send_problemButton=0x7f060006;
 >>>>>>> origin/jessica

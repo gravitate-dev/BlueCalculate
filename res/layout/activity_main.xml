@@ -27,6 +27,7 @@
     <Button
         android:id="@+id/addition"
         style="?android:attr/buttonStyleSmall"
+<<<<<<< HEAD
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 <<<<<<< HEAD
@@ -42,6 +43,10 @@
         android:layout_below="@+id/buttonConnect"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 =======
+=======
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+>>>>>>> origin/jessica
         android:layout_alignLeft="@+id/TextView01"
         android:layout_below="@+id/editText2"
         android:layout_marginTop="32dp"
@@ -77,6 +82,9 @@
         android:ems="10"
         android:inputType="number|numberSigned"
         android:maxLength="8" />
+<<<<<<< HEAD
+>>>>>>> origin/jessica
+=======
 >>>>>>> origin/jessica
 
 </RelativeLayout>

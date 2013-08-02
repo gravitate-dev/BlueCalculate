@@ -33,7 +33,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private TextView tv_Answer;
 	public static Activity activity;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> origin/jessica
 	/*start*/
 	private Button addButton, subButton;
 	private EditText text1, text2;
@@ -44,6 +47,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private String bundleStringOut;
 	/*end*/
 	
+<<<<<<< HEAD
+>>>>>>> origin/jessica
+=======
 >>>>>>> origin/jessica
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		tv_Answer = (TextView)findViewById(R.id.textView_Answer);
 		tv_Answer.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
 <<<<<<< HEAD
+<<<<<<< HEAD
 		buttonConnect = (Button)findViewById(R.id.buttonConnect);
 		
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
@@ -61,6 +68,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 =======
 		
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
+=======
+		
+		bluetoothHelper = new BluetoothHelper(MainActivity.this);
+>>>>>>> origin/jessica
 	/*start*/	
 		addButton = (Button) findViewById(R.id.addition);
 		subButton= (Button) findViewById(R.id.subtraction);
@@ -93,6 +104,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		}
 		});
 		/*end*/
+<<<<<<< HEAD
+>>>>>>> origin/jessica
+=======
 >>>>>>> origin/jessica
 		
 		//start server when its loaded 
@@ -108,6 +122,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	        // Make sure the request was successful
 	        if (resultCode == RESULT_OK) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	        	String sendMe = data.getStringExtra("sendString");
 	        	bluetoothHelper.setSendMessage(sendMe);
 	        	if (bluetoothHelper.isConnectedAsClient()==false)
@@ -119,6 +134,21 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	
 	
+=======
+	        	
+	        }
+	    }
+	}
+	
+	public void sendIT(String sendMe) {
+    	bluetoothHelper.setSendMessage(sendMe);
+    	if (bluetoothHelper.isConnectedAsClient()==false)
+    		bluetoothHelper.initClient();
+    	else
+    		bluetoothHelper.sendMessage(sendMe);
+	}
+	
+>>>>>>> origin/jessica
 =======
 	        	
 	        }
@@ -157,6 +187,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		switch(v.getId())
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		case R.id.buttonConnect:
 			Log.i(tag,"Client button clicked starting math activity");
 			//the client will be started after the intent is returned
@@ -169,14 +200,19 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 			//break;
 =======
 >>>>>>> origin/jessica
+=======
+>>>>>>> origin/jessica
 		default:
 			break;
 		}
 		return false;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> origin/jessica
 	/*start*/
 	private void setNumbers_finalDisplay_bundleStringOut(char operator){
 		number1=0;
@@ -206,5 +242,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		return answer;
 	}
 	/*end*/
+<<<<<<< HEAD
+>>>>>>> origin/jessica
+=======
 >>>>>>> origin/jessica
 }
