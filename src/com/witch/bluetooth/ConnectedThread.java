@@ -77,6 +77,11 @@ public class ConnectedThread extends Thread{
 		}
         write(bytes_test);
         Log.i(tag,"Sent bytes");
+    	if (s.contains("kill")) {
+    		Log.i(tag,"Killing server because i sent kill!");
+    		bluetoothHelper.safeResetServer();
+        	return;
+    	}
     }
  
     /* Call this from the main activity to shutdown the connection */
@@ -98,10 +103,6 @@ public class ConnectedThread extends Thread{
 				e.printStackTrace();
 			}
         	write(bluetoothHelper.getSendMessage());
-        	if (bluetoothHelper.getSendMessage().contains("kill")) {
-        		bluetoothHelper.safeResetServer();
-            	return;
-        	}
         // Keep listening to the InputStream until an exception occurs
         while (true) {
             try {

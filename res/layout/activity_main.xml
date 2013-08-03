@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:background="@drawable/linelayout"
         android:ems="10"
-        android:inputType="number|numberSigned"
+        android:inputType="phone"
         android:maxLength="8"
         android:text="1"
         android:textColor="#6A8FC4"
