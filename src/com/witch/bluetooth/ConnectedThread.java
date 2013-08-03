@@ -63,7 +63,7 @@ public class ConnectedThread extends Thread{
     public void write(byte[] bytes) {
         try {
             mmOutStream.write(bytes);
-        } catch (IOException e) { }
+        } catch (IOException e) { Log.e(tag,"Interesting error here buddy"); }
     }
     
     public void write(String s){
@@ -108,7 +108,10 @@ public class ConnectedThread extends Thread{
                 // Read from the InputStream
                 bytes = mmInStream.read(buffer);
                 String myText = new String(buffer,0,bytes,"UTF-8");
-                if (myText.contains("kill")) throw new IOException(); //sneaky way of killing server
+                if (myText.contains("kill")){
+                	Log.e(tag,"SUCCESS Ended Thread here!");
+                	throw new IOException(); //sneaky way of killing server
+                }
                 	
                 //lets parse it mathmatically
                 Integer x = BluetoothMessenger.solveString(myText);

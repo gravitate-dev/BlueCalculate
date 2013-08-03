@@ -18,15 +18,18 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int linelayout=0x7f020001;
+        public static final int minus=0x7f020002;
+        public static final int minussquare=0x7f020003;
+        public static final int plus=0x7f020004;
+        public static final int plussqaure=0x7f020005;
     }
     public static final class id {
-        public static final int TextView01=0x7f090001;
-        public static final int addition=0x7f090004;
-        public static final int editText1=0x7f090003;
-        public static final int editText2=0x7f090002;
-        public static final int menu_settings=0x7f090006;
-        public static final int subtraction=0x7f090005;
-        public static final int textView_Answer=0x7f090000;
+        public static final int addition=0x7f090002;
+        public static final int editText1=0x7f090001;
+        public static final int editText2=0x7f090000;
+        public static final int menu_settings=0x7f090004;
+        public static final int subtraction=0x7f090003;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

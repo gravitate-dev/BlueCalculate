@@ -4,11 +4,16 @@ import com.witch.bluecalculate.R;
 import com.witch.bluetooth.BluetoothHelper;
 
 import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
@@ -23,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends Activity implements View.OnTouchListener {
 	
 	private enum INTENTCODE {
@@ -41,6 +47,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private int number1, number2;
 	public String finalDisplay;
 	private String bundleStringOut;
+	private NotificationManager mNotificationManager;
+	private Notification.Builder mNotificationBuilder;
 	/*end*/
 	
 	@Override
@@ -49,8 +57,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		setContentView(R.layout.activity_main);
 		activity = this;
 		
-		tv_Answer = (TextView)findViewById(R.id.textView_Answer);
-		tv_Answer.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
 
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
 	/*start*/	
@@ -58,7 +64,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		subButton= (Button) findViewById(R.id.subtraction);
 		text1= (EditText) findViewById(R.id.editText1);
 		text2= (EditText) findViewById(R.id.editText2);
-		resultBox= (TextView) findViewById(R.id.TextView01);
 		
 		addButton.setOnTouchListener(new OnTouchListener(){
 		
@@ -89,6 +94,19 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		if (bluetoothHelper.initServer()==true)
 			Log.i(tag,"Started Activity Successfully");
 		Log.i(tag,"Started Activity Successfully");
+		
+		
+		
+		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		// Sets an ID for the notification, so it can be updated
+		mNotificationBuilder =
+		        new Notification.Builder(this)
+		        .setSmallIcon(R.drawable.ic_launcher)
+		        .setContentTitle("My notification")
+		        .setContentText("Hello World!")
+		        .setTicker("Testing this");
+		
+
 	}
 	
 	
@@ -113,12 +131,19 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	public void updateMainTextAnswer(String s)
 	{
-		/*String old = textViewOutput.getText().toString();
-		old +="\n"+s;
-		textViewOutput.setText(old);
-		*/
+		//Used a textview
+		//tv_Answer.setText(s);
+		//Used a toast
 		//Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
-		tv_Answer.setText(s);
+		//Now using notification!
+		
+		int notifyID = 151;
+		//cancel any old ones
+		mNotificationManager.cancel(notifyID);
+		mNotificationBuilder.setTicker(s);
+	    mNotificationManager.notify(
+	            notifyID,
+	            mNotificationBuilder.build());
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -167,10 +192,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	/*end*/
 	
-	public void onBackPressed() {
+	/*public void onBackPressed() {
 		   Log.i("HA", "Finishing");
 		   finish();
-		 }
+		 }*/
 	
 	@Override
 	protected void onPause(){
@@ -178,20 +203,23 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		//bluetoothHelper.endAnyOpenConnections();
 		//here i will set up a boolean that will be read when the android will resume
 		//
-		//bluetoothHelper.setShouldRestartOnResume(true);
+		Log.i(tag, "On pause called!");
+		bluetoothHelper.endAnyOpenConnections();
 		
-		//Log.i(tag, "PAUSE NOT YET SUPPORTED");
+		
 		//finish();
 	}
 	
 	@Override
 	protected void onResume(){
 		super.onResume();
-		/*
+		Log.i(tag,"Calling Resume!");
 		if (bluetoothHelper.shouldRestartOnResume()) {
+			bluetoothHelper.endAnyOpenConnections();
 			bluetoothHelper.safeResetServer();
 			bluetoothHelper.setShouldRestartOnResume(false);
-		}*/
+			Log.i(tag,"restarting server here!");
+		}
 	}
 	
 	

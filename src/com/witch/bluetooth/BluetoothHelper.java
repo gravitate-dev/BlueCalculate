@@ -254,6 +254,8 @@ public class BluetoothHelper  {
 		if (connectedThread!=null){
 			Log.i(tag,"here");
 				connectedThread.write(s);
+		} else {
+			Log.i(tag,"Connected Thread is null :/");
 		}
 	}
 	public String getSendMessage(){
@@ -269,18 +271,18 @@ public class BluetoothHelper  {
 	}
 	
 	public void endAnyOpenConnections(){
-		if (isConnectedAsClient()==true)
+		if (isConnectedAsClient()==true) {
     		sendMessage("kill");
-	}
-	public void sendTest(){
-		if (connectedThread!=null){
-			Log.i(tag,"here");
-				connectedThread.write("Teddy bear!");
+    		if (connectedThread!=null)
+    			connectedThread.cancel();
 		}
+			
 	}
 	
 	public boolean safeResetServer(){
 		if (isConnectedAsClient()==true) {
+			if (connectedThread!=null)
+			connectedThread.cancel();
     		setIsClientConnected(false);
     		initServer();
     		return true;
