@@ -3,6 +3,9 @@ package com.witch.bluecalculate;
 import com.witch.bluecalculate.R;
 import com.witch.bluetooth.BluetoothHelper;
 
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
+import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,12 +57,71 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_realcalc);
 		activity = this;
 		
+	    /*final KeyboardView keyboardView = (KeyboardView) findViewById(R.id.keyboardView);
+	    Keyboard keyboard = new Keyboard(this, R.layout.keyboard);
+	    keyboardView.setKeyboard(keyboard);
+	    keyboardView.setEnabled(true);
+	    keyboardView.setPreviewEnabled(true);
+
+	    keyboardView.setOnKeyboardActionListener(new OnKeyboardActionListener(){
+
+			@Override
+			public void onKey(int arg0, int[] arg1) {
+				// TODO Auto-generated method stub
+				Log.i(tag,String.valueOf(arg0));
+				
+			}
+
+			@Override
+			public void onPress(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onRelease(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onText(CharSequence arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeDown() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeLeft() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeRight() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeUp() {
+				// TODO Auto-generated method stub
+				
+			}
+	    	
+	    });
+		*/
 
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
-	/*start*/	
+	/*start	
 		addButton = (Button) findViewById(R.id.addition);
 		subButton= (Button) findViewById(R.id.subtraction);
 		text1= (EditText) findViewById(R.id.editText1);
@@ -89,7 +151,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		return false;
 		}
 		});
-		/*end*/
+		
+		end*/
 		
 		if (bluetoothHelper.initServer()==true)
 			Log.i(tag,"Started Activity Successfully");

@@ -1,0 +1,108 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:horizontalGap="0px"
+    android:keyBackground="@drawable/ic_launcher"
+    android:keyWidth="33sp"
+    android:keyHeight="20sp"
+    android:verticalGap="0px" >
+
+<Row>
+
+    <Key
+        android:codes="1"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="1" />
+    <Key
+        android:codes="2"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="2" />
+    <Key
+        android:codes="3"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="3" />
+ </Row>
+ 
+<Row>
+
+    <Key
+        android:codes="4"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="4" />
+    <Key
+        android:codes="5"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="5" />
+    <Key
+        android:codes="6"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="6" />
+ </Row>
+ 
+<Row>
+
+    <Key
+        android:codes="7"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="7" />
+    <Key
+        android:codes="8"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="8" />
+    <Key
+        android:codes="9"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="9" />
+ </Row>
+ <Row>
+
+    <Key
+        android:codes="0"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="0" />
+    <Key
+        android:codes="+"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="+" />
+    <Key
+        android:codes="-"
+        android:iconPreview="@drawable/ic_launcher"
+        android:isRepeatable="true"
+        android:keyEdgeFlags="left"
+        android:keyIcon="@drawable/ic_launcher"
+        android:keyLabel="-" />
+ </Row>
+</Keyboard>
