@@ -3,12 +3,20 @@ package com.witch.bluecalculate;
 import com.witch.bluecalculate.R;
 import com.witch.bluetooth.BluetoothHelper;
 
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
+import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
@@ -23,6 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends Activity implements View.OnTouchListener {
 	
 	private enum INTENTCODE {
@@ -41,24 +50,82 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private int number1, number2;
 	public String finalDisplay;
 	private String bundleStringOut;
+	private NotificationManager mNotificationManager;
+	private Notification.Builder mNotificationBuilder;
 	/*end*/
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_realcalc);
 		activity = this;
 		
-		tv_Answer = (TextView)findViewById(R.id.textView_Answer);
-		tv_Answer.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
+	    /*final KeyboardView keyboardView = (KeyboardView) findViewById(R.id.keyboardView);
+	    Keyboard keyboard = new Keyboard(this, R.layout.keyboard);
+	    keyboardView.setKeyboard(keyboard);
+	    keyboardView.setEnabled(true);
+	    keyboardView.setPreviewEnabled(true);
+
+	    keyboardView.setOnKeyboardActionListener(new OnKeyboardActionListener(){
+
+			@Override
+			public void onKey(int arg0, int[] arg1) {
+				// TODO Auto-generated method stub
+				Log.i(tag,String.valueOf(arg0));
+				
+			}
+
+			@Override
+			public void onPress(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onRelease(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onText(CharSequence arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeDown() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeLeft() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeRight() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void swipeUp() {
+				// TODO Auto-generated method stub
+				
+			}
+	    	
+	    });
+		*/
 
 		bluetoothHelper = new BluetoothHelper(MainActivity.this);
-	/*start*/	
+	/*start	
 		addButton = (Button) findViewById(R.id.addition);
 		subButton= (Button) findViewById(R.id.subtraction);
 		text1= (EditText) findViewById(R.id.editText1);
 		text2= (EditText) findViewById(R.id.editText2);
-		resultBox= (TextView) findViewById(R.id.TextView01);
 		
 		addButton.setOnTouchListener(new OnTouchListener(){
 		
@@ -84,11 +151,25 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		return false;
 		}
 		});
-		/*end*/
+		
+		end*/
 		
 		if (bluetoothHelper.initServer()==true)
 			Log.i(tag,"Started Activity Successfully");
 		Log.i(tag,"Started Activity Successfully");
+		
+		
+		
+		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		// Sets an ID for the notification, so it can be updated
+		mNotificationBuilder =
+		        new Notification.Builder(this)
+		        .setSmallIcon(R.drawable.ic_launcher)
+		        .setContentTitle("My notification")
+		        .setContentText("Hello World!")
+		        .setTicker("Testing this");
+		
+
 	}
 	
 	
@@ -113,12 +194,19 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	public void updateMainTextAnswer(String s)
 	{
-		/*String old = textViewOutput.getText().toString();
-		old +="\n"+s;
-		textViewOutput.setText(old);
-		*/
+		//Used a textview
+		//tv_Answer.setText(s);
+		//Used a toast
 		//Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
-		tv_Answer.setText(s);
+		//Now using notification!
+		
+		int notifyID = 151;
+		//cancel any old ones
+		mNotificationManager.cancel(notifyID);
+		mNotificationBuilder.setTicker(s);
+	    mNotificationManager.notify(
+	            notifyID,
+	            mNotificationBuilder.build());
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -167,10 +255,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	/*end*/
 	
-	public void onBackPressed() {
+	/*public void onBackPressed() {
 		   Log.i("HA", "Finishing");
 		   finish();
-		 }
+		 }*/
 	
 	@Override
 	protected void onPause(){
@@ -178,20 +266,23 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		//bluetoothHelper.endAnyOpenConnections();
 		//here i will set up a boolean that will be read when the android will resume
 		//
-		//bluetoothHelper.setShouldRestartOnResume(true);
+		Log.i(tag, "On pause called!");
+		bluetoothHelper.endAnyOpenConnections();
 		
-		//Log.i(tag, "PAUSE NOT YET SUPPORTED");
+		
 		//finish();
 	}
 	
 	@Override
 	protected void onResume(){
 		super.onResume();
-		/*
+		Log.i(tag,"Calling Resume!");
 		if (bluetoothHelper.shouldRestartOnResume()) {
+			bluetoothHelper.endAnyOpenConnections();
 			bluetoothHelper.safeResetServer();
 			bluetoothHelper.setShouldRestartOnResume(false);
-		}*/
+			Log.i(tag,"restarting server here!");
+		}
 	}
 	
 	

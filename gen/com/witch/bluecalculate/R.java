@@ -18,18 +18,104 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int linelayout=0x7f020001;
+        public static final int minus=0x7f020002;
+        public static final int minussquare=0x7f020003;
+        public static final int plus=0x7f020004;
+        public static final int plussqaure=0x7f020005;
     }
     public static final class id {
-        public static final int TextView01=0x7f090001;
-        public static final int addition=0x7f090004;
-        public static final int editText1=0x7f090003;
-        public static final int editText2=0x7f090002;
-        public static final int menu_settings=0x7f090006;
-        public static final int subtraction=0x7f090005;
-        public static final int textView_Answer=0x7f090000;
+        public static final int Button_func0=0x7f090037;
+        public static final int Button_func1=0x7f090032;
+        public static final int Button_func2=0x7f090033;
+        public static final int Button_func3=0x7f090034;
+        public static final int Button_func4=0x7f09002a;
+        public static final int Button_func5=0x7f09002b;
+        public static final int Button_func6=0x7f09002c;
+        public static final int Button_func7=0x7f090024;
+        public static final int Button_func8=0x7f090025;
+        public static final int Button_func9=0x7f090026;
+        public static final int Button_funcdivide=0x7f090027;
+        public static final int Button_funcdot=0x7f090038;
+        public static final int Button_funcleftParenth=0x7f090028;
+        public static final int Button_funcminus=0x7f090035;
+        public static final int Button_funcplus=0x7f090039;
+        public static final int Button_funcrightParenth=0x7f09002e;
+        public static final int Button_functimes=0x7f09002d;
+        public static final int EditText1=0x7f090020;
+        public static final int addition=0x7f09001c;
+        public static final int bottomHalf=0x7f090021;
+        public static final int bottomPanel=0x7f090046;
+        public static final int bottomPanelLeft=0x7f090030;
+        public static final int bottomRightPanel=0x7f090022;
+        public static final int bottomRightSpecial=0x7f09002f;
+        public static final int button0=0x7f090016;
+        public static final int button1=0x7f090011;
+        public static final int button2=0x7f090012;
+        public static final int button3=0x7f090013;
+        public static final int button4=0x7f09000c;
+        public static final int button5=0x7f09000d;
+        public static final int button6=0x7f09000e;
+        public static final int button7=0x7f090007;
+        public static final int button8=0x7f090008;
+        public static final int button9=0x7f090009;
+        public static final int buttonBackspace=0x7f090004;
+        public static final int buttonClear=0x7f090005;
+        public static final int buttonDecimal=0x7f090017;
+        public static final int buttonDivide=0x7f090019;
+        public static final int buttonEquals=0x7f090018;
+        public static final int buttonLeftParen=0x7f090002;
+        public static final int buttonMinus=0x7f09000f;
+        public static final int buttonPlus=0x7f09000a;
+        public static final int buttonRightParen=0x7f090003;
+        public static final int buttonTimes=0x7f090014;
+        public static final int calcscreen=0x7f09001f;
+        public static final int decimal=0x7f09004e;
+        public static final int division=0x7f09003e;
+        public static final int editText2=0x7f09001a;
+        public static final int eight=0x7f09003c;
+        public static final int equals=0x7f090050;
+        public static final int five=0x7f090042;
+        public static final int four=0x7f090041;
+        public static final int input=0x7f09001b;
+        public static final int keyboardView=0x7f09001e;
+        public static final int left_parenthesis=0x7f09003f;
+        public static final int linearLayout1=0x7f090001;
+        public static final int linearLayout2=0x7f090006;
+        public static final int linearLayout3=0x7f09000b;
+        public static final int linearLayout4=0x7f090010;
+        public static final int linearLayout5=0x7f090015;
+        public static final int menu_settings=0x7f090051;
+        public static final int minus=0x7f09004b;
+        public static final int multiplication=0x7f090044;
+        public static final int nine=0x7f09003d;
+        public static final int one=0x7f090048;
+        public static final int plus=0x7f09004f;
+        public static final int right_parenthesis=0x7f090045;
+        public static final int row01=0x7f090031;
+        public static final int row02=0x7f090036;
+        public static final int row03=0x7f090023;
+        public static final int row04=0x7f090029;
+        public static final int row1=0x7f09003a;
+        public static final int row2=0x7f090040;
+        public static final int row3=0x7f090047;
+        public static final int row4=0x7f09004c;
+        public static final int seven=0x7f09003b;
+        public static final int six=0x7f090043;
+        public static final int subtraction=0x7f09001d;
+        public static final int three=0x7f09004a;
+        public static final int two=0x7f090049;
+        public static final int webview=0x7f090000;
+        public static final int zero=0x7f09004d;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
+        public static final int activity_alt=0x7f030000;
+        public static final int activity_jescalc=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_mainkeyboard=0x7f030003;
+        public static final int activity_realcalc=0x7f030004;
+        public static final int jessicalc_layout=0x7f030005;
+        public static final int keyboard=0x7f030006;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
@@ -69,6 +155,7 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
+        public static final int coldButton=0x7f070002;
     }
     public static final class xml {
         public static final int filter_nfc=0x7f040000;
