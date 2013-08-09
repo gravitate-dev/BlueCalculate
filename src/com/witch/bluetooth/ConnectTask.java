@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 class ConnectTask {
     private final BluetoothSocket mmSocket;
-    private final String tag = "witch.ConnectThread";
+    private final String tag = "witch.ConnectTask";
     private BluetoothHelper bluetoothHelper;
     
  
