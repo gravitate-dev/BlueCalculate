@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	private Button buttonConnect;
 	private BluetoothHelper bluetoothHelper;
 	public static Activity activity;
+	private Boolean canUseDot=true;
 	/*start*/
 	private EditText mainEditText;
 	private MotionEvent event = null;
@@ -76,6 +78,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		
 		//set up the mainText
 		mainEditText = (EditText)findViewById(R.id.outputText);
+		mainEditText.setInputType(EditorInfo.TYPE_NULL);
 		
 		//set up the buttons!
 		findViewById(R.id.zero).setOnTouchListener(this);
@@ -96,7 +99,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		findViewById(R.id.left_parenthesis).setOnTouchListener(this);
 		findViewById(R.id.right_parenthesis).setOnTouchListener(this);
 		findViewById(R.id.equals).setOnTouchListener(this);
-		findViewById(R.id.bluetooth_equals).setOnTouchListener(this);
+		findViewById(R.id.clearButton).setOnTouchListener(this);
+		findViewById(R.id.bluetoothequals).setOnTouchListener(this);
 		
 	}	
 	
@@ -148,18 +152,13 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		if (event.getAction() != MotionEvent.ACTION_UP) return false;
 		switch(v.getId())
 		{
+		case R.id.decimal:
+			if (canAddDecimal() == false) {
+				Log.i(tag, "no can do, buckaroo");	
+				break;
+			}
+			canUseDot=false;
 		case R.id.zero:
-			/* Case 1 : GOOD
-			 * input : null
-			 * Case 2 : GOOD
-			 * input .
-			 * Case 3 : BAD
-			 * input 0 
-			 * Case 4 :
-			 * input - okay
-			 */
-			canAddZero(mainEditText.getText().toString());
-			break;
 		case R.id.one:
 		case R.id.two:
 		case R.id.three:
@@ -169,22 +168,31 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		case R.id.seven:
 		case R.id.eight:
 		case R.id.nine:
-		case R.id.decimal:
+			appendMainDisplayText(((Button)v).getText().toString());
+			break;
 		case R.id.division:
 		case R.id.multiplication:
 		case R.id.minus:
 		case R.id.plus:
+			canUseDot=true;
+			appendMainDisplayText(((Button)v).getText().toString());
+			break;
 		case R.id.left_parenthesis:
 		case R.id.right_parenthesis:
-			Button b = (Button)v;
-		    String buttonText = b.getText().toString();
-		    appendMainDisplayText(buttonText);
+			appendMainDisplayText(((Button)v).getText().toString());
 			break;
 		case R.id.equals:
+			canUseDot=true;
 			setMainDisplayText(solveExpression(mainEditText.getText().toString()));
 			break;
-		case R.id.bluetooth_equals:
+		case R.id.clearButton:
+			canUseDot=true;
 			clearMainDisplayText();
+			break;
+			
+		case R.id.bluetoothequals:
+			Log.i(tag,"hello here");
+			sendIT(mainEditText.getText().toString());
 			break;
 		default:
 			break;
@@ -193,25 +201,16 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 	}
 	
 	
-	public boolean canAddZero(String expression){
-		//tokenize based on operator
-		String[] tokens = expression.split("[\\D|^\\.]+");
-		for (String toke : tokens)
-			Log.i(tag,"tokens"+toke);
-		return true;
+	public boolean canAddDecimal(){
+		return canUseDot;
 	}
 	public String solveExpression(String expression)
 	{
 		Evaluator evaluator = new Evaluator();
 		String ans;
 		
-		try {
-			ans= evaluator.evaluate(expression);
-
-			
-		} catch (EvaluationException ee) {
-			return "Invalid expression";
-		}
+		try {ans= evaluator.evaluate(expression);} 
+		catch (EvaluationException ee) {return "Invalid expression";}
 		return ans;
 	}
 	
@@ -236,9 +235,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 		//here i will set up a boolean that will be read when the android will resume
 		Log.i(tag, "On pause called!");
 		bluetoothHelper.endAnyOpenConnections();
-			
-		//finish();
-	}
+		}
 	
 	@Override
 	protected void onResume(){

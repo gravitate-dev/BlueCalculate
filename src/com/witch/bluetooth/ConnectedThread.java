@@ -115,8 +115,8 @@ public class ConnectedThread extends Thread{
                 }
                 	
                 //lets parse it mathmatically
-                Integer x = BluetoothMessenger.solveString(myText);
-                printMe = myText+"="+ x.toString();
+                printMe = myText+"="+ BluetoothMessenger.solveString(myText);
+                if (myText.contains("Invalid")==false){
                 Log.i(tag,printMe);
                     handler.post(new Runnable() { // This thread runs in the UI
                         @Override
@@ -124,7 +124,9 @@ public class ConnectedThread extends Thread{
                         	((MainActivity) context).updateMainTextAnswer(printMe);
                         }
                     });
-                
+                } else {
+                	Log.i(tag,"invalid expression, ignoring");
+                }
                 //Toast.makeText(this.bluetoothHelper.ctx, "Message:"+myText, Toast.LENGTH_SHORT).show();
             	
             } catch (IOException e) {
